@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>Road To Licence — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1a4731;
+    --pine: #2d7a52;
+    --gold: #c9a84c;
+    --mist: #eaf5ef;
+    --chalk: #f7f6f1;
+    --asphalt: #24261f;
+    --line: #d8d2c4;
+    --danger: #b0463c;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--chalk);
+    font-family: 'Inter', sans-serif;
+    color: var(--asphalt);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Road-line texture across the very top of the page */
+  .road-strip {
+    height: 10px;
+    width: 100%;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--gold) 0px, var(--gold) 22px,
+      transparent 22px, transparent 40px
+    );
+    background-color: var(--asphalt);
+  }
+
+  .wrap {
+    max-width: 460px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
+
+  header.brand {
+    text-align: center;
+    margin-bottom: 22px;
+  }
+
+  header.brand .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--pine);
+    font-weight: 600;
+  }
+
+  header.brand h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--forest);
+    margin: 4px 0 2px;
+    letter-spacing: -0.01em;
+  }
+
+  header.brand p {
+    margin: 0;
+    font-size: 13px;
+    color: #5b5c52;
+  }
+
+  /* Dashboard-style toggle, styled like a two-position indicator switch */
+  .switch {
+    display: flex;
+    background: var(--asphalt);
+    border-radius: 14px;
+    padding: 5px;
+    margin-bottom: 22px;
+    position: relative;
+  }
+
+  .switch button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #b9b7a8;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 0.02em;
+  }
+
+  .switch button.active { color: var(--asphalt); }
+
+  .switch .indicator {
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    width: calc(50% - 5px);
+    background: var(--gold);
+    border-radius: 10px;
+    transition: transform 0.25s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
+  }
+
+  .switch.out .indicator { transform: translateX(100%); }
+
+  /* Card */
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 20px;
+    box-shadow: 0 1px 2px rgba(24,30,20,0.04);
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .field input,
+  .field select {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1.5px solid var(--line);
+    border-radius: 9px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    background: var(--chalk);
+    color: var(--asphalt);
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .field select {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8"><path d="M1 1l5 5 5-5" stroke="%2324261f" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  .field input:focus,
+  .field select:focus {
+    outline: none;
+    border-color: var(--pine);
+    background: #fff;
+  }
+
+  /* Licence number gets a plate treatment — the one signature flourish */
+  .plate-field input {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: #fff;
+    border: 2px solid var(--asphalt);
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  .row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px 0 18px;
+  }
+
+  .divider .dash-line {
+    flex: 1;
+    height: 0;
+    border-top: 2px dashed var(--line);
+  }
+
+  .divider span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #9a9788;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  button.submit {
+    width: 100%;
+    padding: 15px;
+    background: var(--forest);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background 0.15s ease, transform 0.05s ease;
+  }
+
+  button.submit:active { transform: scale(0.98); }
+  button.submit:disabled { background: #9aa79e; cursor: not-allowed; }
+
+  .out-theme button.submit { background: var(--pine); }
+
+  /* Status message */
+  .status {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 9px;
+    font-size: 13.5px;
+    font-weight: 500;
+    display: none;
+  }
+
+  .status.show { display: block; }
+  .status.success { background: var(--mist); color: var(--forest); border: 1px solid #b9dcc7; }
+  .status.error { background: #fbeceb; color: var(--danger); border: 1px solid #eec8c4; }
+  .status.loading { background: var(--chalk); color: #5b5c52; border: 1px solid var(--line); }
+
+  footer.foot {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 11px;
+    color: #a5a293;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+
+<div class="road-strip"></div>
+
+<div class="wrap">
+  <header class="brand">
+    <div class="eyebrow">Road To Licence</div>
+    <h1>Lesson Sign-In</h1>
+    <p>Scan in when you arrive, scan out when you finish</p>
+  </header>
+
+  <div class="switch" id="switchToggle">
+    <div class="indicator"></div>
+    <button type="button" class="active" data-mode="in">Clock In</button>
+    <button type="button" data-mode="out">Clock Out</button>
+  </div>
+
+  <div class="card">
+    <!-- CLOCK IN FORM -->
+    <form id="clockInForm">
+      <div class="field">
+        <label for="in-name">Student Name</label>
+        <input type="text" id="in-name" required autocomplete="name">
+      </div>
+
+      <div class="field plate-field">
+        <label for="in-licence">Licence Number</label>
+        <input type="text" id="in-licence" required>
+      </div>
+
+      <div class="field">
+        <label for="in-expiry">Licence Expiry</label>
+        <input type="date" id="in-expiry" required>
+      </div>
+
+      <div class="divider"><div class="dash-line"></div><span>Today's Session</span><div class="dash-line"></div></div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="in-date">Date</label>
+          <input type="date" id="in-date" required>
+        </div>
+        <div class="field">
+          <label for="in-start">Start Time</label>
+          <input type="time" id="in-start" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="in-lesson">Lesson Type</label>
+        <select id="in-lesson" required>
+          <option value="">Select a lesson</option>
+          <option>Single Lesson (1 hr)</option>
+          <option>Single Lesson (2 hr)</option>
+          <option>Starter Pack – 5 Lessons</option>
+          <option>Standard Pack – 10 Lessons</option>
+          <option>Premium Pack – 20 Lessons</option>
+          <option>Motorway / Highway Lesson</option>
+          <option>Pre-Test Assessment</option>
+          <option>Defensive Driving</option>
+          <option>Night Driving</option>
+          <option>Custom Package</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="in-payment">Payment Status</label>
+        <select id="in-payment" required>
+          <option value="">Select status</option>
+          <option>Paid</option>
+          <option>Unpaid</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit">Clock In</button>
+      <div class="status" id="in-status"></div>
+    </form>
+
+    <!-- CLOCK OUT FORM -->
+    <form id="clockOutForm" style="display:none;">
+      <div class="field">
+        <label for="out-name">Student Name</label>
+        <input type="text" id="out-name" required autocomplete="name">
+      </div>
+
+      <div class="divider"><div class="dash-line"></div><span>Today's Session</span><div class="dash-line"></div></div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="out-date">Date</label>
+          <input type="date" id="out-date" required>
+        </div>
+        <div class="field">
+          <label for="out-finish">Finish Time</label>
+          <input type="time" id="out-finish" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="out-payment">Payment Status</label>
+        <select id="out-payment" required>
+          <option value="">Select status</option>
+          <option>Paid</option>
+          <option>Unpaid</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit">Clock Out</button>
+      <div class="status" id="out-status"></div>
+    </form>
+  </div>
+
+  <footer class="foot">RTL · Session Records</footer>
+</div>
+
+<script>
+  // ── Config ─────────────────────────────────────────────
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCmp7ncpSJanqr84qlLKVTccN5NBECCSbdzXVqS_1H71YQTKV9UxIbtMehUYHzOTE4/exec";
+
+  // ── Toggle logic ───────────────────────────────────────
+  const toggle = document.getElementById('switchToggle');
+  const buttons = toggle.querySelectorAll('button');
+  const clockInForm = document.getElementById('clockInForm');
+  const clockOutForm = document.getElementById('clockOutForm');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (btn.dataset.mode === 'out') {
+        toggle.classList.add('out');
+        clockInForm.style.display = 'none';
+        clockOutForm.style.display = 'block';
+      } else {
+        toggle.classList.remove('out');
+        clockOutForm.style.display = 'none';
+        clockInForm.style.display = 'block';
+      }
+    });
+  });
+
+  // ── Helpers ────────────────────────────────────────────
+  function formatDateForSheet(isoDate) {
+    // "2026-07-06" -> "06/07/2026"
+    const [y, m, d] = isoDate.split('-');
+    return `${d}/${m}/${y}`;
+  }
+
+  function getDayName(isoDate) {
+    const dateObj = new Date(isoDate + 'T00:00:00');
+    return dateObj.toLocaleDateString('en-US', { weekday: 'long' });
+  }
+
+  function formatTimeForSheet(time24) {
+    // "13:05" -> "1:05 PM"
+    let [h, m] = time24.split(':').map(Number);
+    const meridiem = h >= 12 ? 'PM' : 'AM';
+    h = h % 12;
+    if (h === 0) h = 12;
+    return `${h}:${String(m).padStart(2, '0')} ${meridiem}`;
+  }
+
+  function setStatus(el, kind, message) {
+    el.className = 'status show ' + kind;
+    el.textContent = message;
+  }
+
+  async function submitToSheet(payload, statusEl, button, originalLabel) {
+    button.disabled = true;
+    button.textContent = 'Submitting…';
+    setStatus(statusEl, 'loading', 'Sending your details…');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' }, // avoids CORS preflight issue with Apps Script
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        setStatus(statusEl, 'success', payload.type === 'Clock-In'
+          ? `You're clocked in. Have a great lesson, ${payload.name}.`
+          : `You're clocked out. See you next time, ${payload.name}.`);
+        return true;
+      } else {
+        setStatus(statusEl, 'error', 'Something went wrong: ' + (result.message || 'Please try again.'));
+        return false;
+      }
+    } catch (err) {
+      setStatus(statusEl, 'error', 'Could not reach the server. Check your connection and try again.');
+      return false;
+    } finally {
+      button.disabled = false;
+      button.textContent = originalLabel;
+    }
+  }
+
+  // ── Clock-In submit ────────────────────────────────────
+  clockInForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const button = clockInForm.querySelector('button.submit');
+    const statusEl = document.getElementById('in-status');
+
+    const isoDate = document.getElementById('in-date').value;
+
+    const payload = {
+      type: 'Clock-In',
+      name: document.getElementById('in-name').value.trim(),
+      licence: document.getElementById('in-licence').value.trim(),
+      expiry: formatDateForSheet(document.getElementById('in-expiry').value),
+      date: formatDateForSheet(isoDate),
+      day: getDayName(isoDate),
+      startTime: formatTimeForSheet(document.getElementById('in-start').value),
+      finishTime: '--',
+      totalHours: '--',
+      lesson: document.getElementById('in-lesson').value,
+      payment: document.getElementById('in-payment').value
+    };
+
+    const ok = await submitToSheet(payload, statusEl, button, 'Clock In');
+    if (ok) clockInForm.reset();
+  });
+
+  // ── Clock-Out submit ───────────────────────────────────
+  clockOutForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const button = clockOutForm.querySelector('button.submit');
+    const statusEl = document.getElementById('out-status');
+
+    const isoDate = document.getElementById('out-date').value;
+
+    const payload = {
+      type: 'Clock-Out',
+      name: document.getElementById('out-name').value.trim(),
+      date: formatDateForSheet(isoDate),
+      day: getDayName(isoDate),
+      finishTime: formatTimeForSheet(document.getElementById('out-finish').value),
+      payment: document.getElementById('out-payment').value
+    };
+
+    const ok = await submitToSheet(payload, statusEl, button, 'Clock Out');
+    if (ok) clockOutForm.reset();
+  });
+
+  // ── Default today's date on load ───────────────────────
+  window.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('in-date').value = today;
+    document.getElementById('out-date').value = today;
+  });
+</script>
+
+</body>
+</html>

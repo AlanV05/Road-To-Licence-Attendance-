@@ -320,15 +320,6 @@
         </select>
       </div>
 
-      <div class="field">
-        <label for="in-payment">Payment Status</label>
-        <select id="in-payment" required>
-          <option value="">Select status</option>
-          <option>Paid</option>
-          <option>Unpaid</option>
-        </select>
-      </div>
-
       <button type="submit" class="submit">Clock In</button>
       <div class="status" id="in-status"></div>
     </form>
@@ -473,8 +464,7 @@
       startTime: formatTimeForSheet(document.getElementById('in-start').value),
       finishTime: '--',
       totalHours: '--',
-      lesson: document.getElementById('in-lesson').value,
-      payment: document.getElementById('in-payment').value
+      lesson: document.getElementById('in-lesson').value
     };
 
     const ok = await submitToSheet(payload, statusEl, button, 'Clock In');

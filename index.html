@@ -496,10 +496,22 @@
   }
 
   // ── Clock-In submit ────────────────────────────────────
+  function isValidPhone(phone) {
+    const digitsOnly = phone.replace(/\D/g, '');
+    return digitsOnly.length >= 10;
+  }
+
   clockInForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const button = clockInForm.querySelector('button.submit');
     const statusEl = document.getElementById('in-status');
+
+    const phoneValue = document.getElementById('in-phone').value.trim();
+
+    if (!isValidPhone(phoneValue)) {
+      setStatus(statusEl, 'error', 'Please enter a valid phone number (at least 10 digits).');
+      return;
+    }
 
     const isoDate = document.getElementById('in-date').value;
 

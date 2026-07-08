@@ -498,7 +498,7 @@
   // ── Clock-In submit ────────────────────────────────────
   function isValidPhone(phone) {
     const digitsOnly = phone.replace(/\D/g, '');
-    return digitsOnly.length >= 10;
+    return digitsOnly.length === 10;
   }
 
   clockInForm.addEventListener('submit', async (e) => {
@@ -509,7 +509,7 @@
     const phoneValue = document.getElementById('in-phone').value.trim();
 
     if (!isValidPhone(phoneValue)) {
-      setStatus(statusEl, 'error', 'Please enter a valid phone number (at least 10 digits).');
+      setStatus(statusEl, 'error', 'Please enter a valid 10-digit phone number.');
       return;
     }
 

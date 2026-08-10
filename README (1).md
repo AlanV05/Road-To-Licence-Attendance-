@@ -2,13 +2,13 @@
 
 A full-stack lesson sign-in system built for a real freelance client — a local driving school. Students scan a QR code to clock in and out of lessons on their phone, and every session, payment status, and licence expiry gets tracked automatically in a live Google Sheet the owner checks day-to-day.
 
-**[Live demo →](https://alanv05.github.io/Road-To-Licence-Attendance-/)**
+**(**Note:** the live sign-in page isn't linked publicly here, since it writes directly to a real client's production spreadsheet with no authentication layer (by design, so students can sign in instantly). Screenshots below show the app in action.)**
 
-![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
-![Google Apps Script](https://img.shields.io/badge/Google_Apps_Script-4285F4?style=flat&logo=google&logoColor=white)
-![Google Sheets](https://img.shields.io/badge/Google_Sheets-34A853?style=flat&logo=googlesheets&logoColor=white)
+<img width="593" height="314" alt="image" src="https://github.com/user-attachments/assets/4d0ac0fd-1ae9-4df1-89c7-f10256749335" />
+<img width="561" height="295" alt="image" src="https://github.com/user-attachments/assets/d23d0b60-aa24-44bc-98c5-0af76b5b1d54" />
+<img width="690" height="366" alt="image" src="https://github.com/user-attachments/assets/e44ec714-e5aa-4ba4-8e20-35e84fe3b2a9" />
+<img width="656" height="361" alt="image" src="https://github.com/user-attachments/assets/9154c7fe-a05f-447c-9918-285324a8586c" />
+
 
 ---
 
@@ -26,11 +26,11 @@ No accounts, no app installs, no infrastructure costs.
 
 | Clock In | Clock Out |
 |---|---|
-| ![Clock In screen](docs/screenshots/clockin.jpg) | ![Clock Out screen](docs/screenshots/clockout.jpg) |
+| <img width="593" height="314" alt="image" src="https://github.com/user-attachments/assets/4d0ac0fd-1ae9-4df1-89c7-f10256749335" />|<img width="561" height="295" alt="image" src="https://github.com/user-attachments/assets/d23d0b60-aa24-44bc-98c5-0af76b5b1d54" />  |
 
 | Dashboard | Individual Student Tab |
 |---|---|
-| ![Dashboard](docs/screenshots/dashboard.jpg) | ![Student tab](docs/screenshots/studenttab.jpg) |
+| <img width="690" height="366" alt="image" src="https://github.com/user-attachments/assets/e44ec714-e5aa-4ba4-8e20-35e84fe3b2a9" /> | <img width="656" height="361" alt="image" src="https://github.com/user-attachments/assets/9154c7fe-a05f-447c-9918-285324a8586c" /> |
 
 ## Features
 
@@ -61,13 +61,13 @@ Google Apps Script (deployed as web app)
 Google Sheets (Dashboard + per-student tabs)
 ```
 
-The frontend and backend communicate over a single `doPost` endpoint. The backend handles all validation, formatting, and calculation — the frontend only collects input and displays the result.
+The frontend and backend communicate over a single `doPost` endpoint. The backend handles all validation, formatting, and calculation. The frontend only collects input and displays the result.
 
 ## A few technical highlights
 
-**Timezone-independent date/time comparisons.** An early version of the clock-out validation logic compared date/time values read back from Google Sheets using JavaScript `Date` objects — which silently misbehaved depending on the Apps Script project's configured timezone versus the spreadsheet's actual timezone, occasionally causing valid clock-outs to be rejected as "before" the clock-in. The fix ditches `Date` objects entirely for this comparison: dates and times are parsed as plain text and converted into a single sortable number (`YYYYMMDDHHMM`), removing timezone ambiguity from the comparison altogether.
+**Timezone-independent date/time comparisons.** An early version of the clock-out validation logic compared date/time values read back from Google Sheets using JavaScript `Date` objects, which silently misbehaved depending on the Apps Script project's configured timezone versus the spreadsheet's actual timezone, occasionally causing valid clock-outs to be rejected as "before" the clock-in. The fix ditches `Date` objects entirely for this comparison: dates and times are parsed as plain text and converted into a single sortable number (`YYYYMMDDHHMM`), removing timezone ambiguity from the comparison altogether.
 
-**Defensive backend validation.** Since the sign-in page has no login system by design (it needs to work instantly for any student), all validation happens server-side as well as client-side — chronological ordering, duplicate-name matching, and phone number format are all re-checked in Apps Script regardless of what the frontend already validated.
+**Defensive backend validation.** Since the sign-in page has no login system by design (it needs to work instantly for any student), all validation happens server-side as well as client-side. Chronological ordering, duplicate-name matching, and phone number format are all re-checked in Apps Script regardless of what the frontend already validated.
 
 **Unit-tested core logic.** Date parsing, time parsing, the sortable-number comparison, total-hours calculation, phone validation, and case-insensitive name matching are all covered by a small unit test suite (`runUnitTests()` in `Code.gs`), run directly from the Apps Script editor.
 
@@ -80,16 +80,8 @@ The frontend and backend communicate over a single `doPost` endpoint. The backen
 | Backend | Google Apps Script |
 | Database | Google Sheets |
 
-No frameworks, no build step, no dependencies — deliberately kept simple so a non-technical client can be handed a working system with minimal moving parts to maintain.
+No frameworks, no build step, no dependencies, deliberately kept simple so a non-technical client can be handed a working system with minimal moving parts to maintain.
 
-## Setup / deployment
-
-1. Clone this repo
-2. Copy `Code.gs` into an Apps Script project bound to your Google Sheet
-3. Deploy the Apps Script project as a web app (**Execute as: Me**, **Who has access: Anyone**)
-4. Paste the resulting deployment URL into `SCRIPT_URL` in `index.html`
-5. Push to a GitHub repo and enable GitHub Pages (**Settings → Pages → Deploy from branch**)
-6. Generate a QR code pointing to your live GitHub Pages URL
 
 ## Testing
 
@@ -97,7 +89,7 @@ Run `runUnitTests()` from the Apps Script function dropdown to execute the unit 
 
 ## Project context
 
-Built as a freelance project for Road To Licence Driving School — from initial requirements through to deployment, debugging, and non-technical client documentation. This was the first project I managed fully end-to-end for a real client, including UX decisions, ongoing feature requests, and a written handoff guide for a non-technical business owner.
+Built as a freelance project for Road To Licence Driving School from given initial requirements through to deployment, debugging, and non-technical client documentation. This was the first project I managed fully end-to-end for a real client, including UX decisions, ongoing feature requests, and a written handoff guide for a non-technical business owner.
 
 ## Author
 

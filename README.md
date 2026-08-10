@@ -1,6 +1,6 @@
 # Road To Licence — Driving School Sign-In System
 
-A full-stack lesson sign-in system built for a real freelance client — a local driving school. Students scan a QR code to clock in and out of lessons on their phone, and every session, payment status, and licence expiry gets tracked automatically in a live Google Sheet the owner checks day-to-day.
+A full-stack lesson sign-in system built for a real freelance client who owns a local driving school. Students scan a QR code to clock in and out of lessons on their phone, and every session, payment status, and licence expiry gets tracked automatically in a live Google Sheet the owner checks day-to-day.
 
 **(**Note:** the live sign-in page isn't linked publicly here, since it writes directly to a real client's production spreadsheet with no authentication layer (by design, so students can sign in instantly). Screenshots below show the app in action.)**
 
@@ -17,7 +17,7 @@ Traditional lesson sign-in for a small driving school usually means paper logs o
 
 - **Frontend:** mobile-first HTML/CSS/JavaScript, hosted on GitHub Pages
 - **Backend:** Google Apps Script, deployed as a web app
-- **Database:** Google Sheets — the business owner's existing, familiar tool
+- **Database:** Google Sheets — the business owner's account, familiar tool
 
 No accounts, no app installs, no infrastructure costs.
 

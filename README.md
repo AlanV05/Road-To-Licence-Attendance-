@@ -10,7 +10,6 @@ A full-stack lesson sign-in system built for a real freelance client — a local
 <img width="656" height="361" alt="image" src="https://github.com/user-attachments/assets/9154c7fe-a05f-447c-9918-285324a8586c" />
 
 
----
 
 ## Overview
 
